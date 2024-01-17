@@ -37,7 +37,7 @@ module.exports = grammar({
       seq("INPUT", '(', $.input_list, ')'),
       seq("GROUP", '(', $.input_list, ')'),
       seq("MAP", '(', $.filename, ')'),
-      // TODO: seq("INCLUDE" $.filename, $.ifile_list, END),
+      seq("INCLUDE", $.filename, $.ifile_list),
       seq("NOCROSSREFS", '(', $.nocrossref_list, ')'),
       seq("NOCROSSREFS_TO", '(', $.nocrossref_list, ')'),
       seq("EXTERN", '(', $.extern_name_list, ')'),
@@ -130,7 +130,7 @@ module.exports = grammar({
       seq("FILL", '(', $.fill_exp, ')'),
       "LINKER_VERSION",
       seq("ASSERT", '(', $.exp, ',', $.NAME, ')', $.separator),
-      // TODO: seq("INCLUDE" $.filename, $.statement_list_opt, END),
+      seq("INCLUDE", $.filename, $.statement_list_opt),
     ),
     statement_list: $ => choice(
       seq($.statement_list, $.statement),
@@ -158,7 +158,7 @@ module.exports = grammar({
     ),
     memory_spec: $ => choice(
       seq($.NAME, $.attributes_opt, ":", $.origin_spec, $.opt_comma, $.length_spec),
-      // TODO: seq("INCLUDE", $.filename, $.memory_spec_list_opt, END),
+      seq("INCLUDE", $.filename, $.memory_spec_list_opt),
     ),
     origin_spec: $ => seq("ORIGIN", "=", $.mustbe_exp),
     length_spec: $ => seq(choice("LENGTH", "l", "len"), "=", $.mustbe_exp),
@@ -245,7 +245,7 @@ module.exports = grammar({
       seq($.NAME, $.opt_exp_with_type, $.opt_at, $.opt_align, $.opt_align_with_input, $.opt_subalign, $.sect_constraint, "{", $.statement_list_opt, "}", $.memspec_opt, $.memspec_at_opt, $.phdr_opt, $.fill_opt, $.opt_comma),
       seq("OVERLAY", $.opt_exp_without_type, $.opt_nocrossrefs, $.opt_at, $.opt_subalign, "{", $.overlay_section, "}", $.memspec_opt, $.memspec_at_opt, $.phdr_opt, $.fill_opt, $.opt_comma),
       seq("GROUP", $.opt_exp_with_type, '{', $.sec_or_group_p1, '}'),
-      // TODO: seq("INCLUDE", $.filename, $.sec_or_group_p1, END)
+      seq("INCLUDE", $.filename, $.sec_or_group_p1),
     ),
     type: $ => choice(
       "NOLOAD",

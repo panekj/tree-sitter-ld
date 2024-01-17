@@ -320,6 +320,23 @@
           "members": [
             {
               "type": "STRING",
+              "value": "INCLUDE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "filename"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "ifile_list"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
               "value": "NOCROSSREFS"
             },
             {
@@ -1635,6 +1652,23 @@
               "name": "separator"
             }
           ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "INCLUDE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "filename"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "statement_list_opt"
+            }
+          ]
         }
       ]
     },
@@ -2002,6 +2036,23 @@
             {
               "type": "SYMBOL",
               "name": "length_spec"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "INCLUDE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "filename"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "memory_spec_list_opt"
             }
           ]
         }
@@ -3490,6 +3541,23 @@
             {
               "type": "STRING",
               "value": "}"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "INCLUDE"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "filename"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "sec_or_group_p1"
             }
           ]
         }
