@@ -4,7 +4,7 @@
 module.exports = grammar({
   name: 'ld',
   rules: {
-    script_file: $ => $.ifile_list,
+    script_file: $ => repeat($.ifile_p1),
 
     extern_name_list: $ => choice(
       $.NAME,
@@ -13,7 +13,6 @@ module.exports = grammar({
     ),
 
     filename: $ => $.NAME,
-    ifile_list: $ => repeat($.ifile_p1),
     ifile_p1: $ => choice(
       $.memory,
       $.sections,
@@ -37,9 +36,9 @@ module.exports = grammar({
       seq("INPUT", '(', $.input_list, ')'),
       seq("GROUP", '(', $.input_list, ')'),
       seq("MAP", '(', $.filename, ')'),
-      seq("INCLUDE", $.filename, $.ifile_list),
-      seq("NOCROSSREFS", '(', $.nocrossref_list, ')'),
-      seq("NOCROSSREFS_TO", '(', $.nocrossref_list, ')'),
+      seq("INCLUDE", $.filename, repeat($.ifile_p1)),
+      seq("NOCROSSREFS", '(', optional($.nocrossref_list), ')'),
+      seq("NOCROSSREFS_TO", '(', optional($.nocrossref_list), ')'),
       seq("EXTERN", '(', $.extern_name_list, ')'),
       seq("INSERT", "AFTER", $.NAME),
       seq("INSERT", "BEFORE", $.NAME),
@@ -68,7 +67,7 @@ module.exports = grammar({
       seq($.assignment, $.separator),
       seq("ASSERT", '(', $.exp, ',', $.NAME, ')'),
     ),
-    wildcard_name: _ => /[_a-zA-Z0-9/.\\$~\-+:[\],=?*^!]/,
+    wildcard_name: _ => /[_a-zA-Z0-9/.\\$~\-+:\[\],=?*^!]+/,
     section_name_spec: $ => choice(
       $.wildcard_maybe_reverse,
       seq(choice("SORT_BY_NAME", "SORT"), '(', $.wildcard_maybe_reverse, ')'),
@@ -103,7 +102,7 @@ module.exports = grammar({
       $.wildcard_name,
     ),
     section_name_list: $ => choice(
-      seq($.section_name_list, $.opt_comma, $.section_name_spec),
+      seq($.section_name_list, optional(","), $.section_name_spec),
       $.section_name_spec,
     ),
     input_section_spec_no_keep: $ => choice(
@@ -130,16 +129,14 @@ module.exports = grammar({
       seq("FILL", '(', $.fill_exp, ')'),
       "LINKER_VERSION",
       seq("ASSERT", '(', $.exp, ',', $.NAME, ')', $.separator),
-      seq("INCLUDE", $.filename, $.statement_list_opt),
+      seq("INCLUDE", $.filename, optional($.statement_list)),
     ),
     statement_list: $ => choice(
       seq($.statement_list, $.statement),
       $.statement,
     ),
-    statement_list_opt: $ => optional($.statement_list),
     length: _ => choice("QUAD", "SQUAD", "LONG", "SHORT", "BYTE"),
     fill_exp: $ => $.mustbe_exp,
-    fill_opt: $ => optional(seq("=", $.fill_exp)),
     assign_op: _ => choice("+=", "-=", "*=", "/=", "<<=", ">>=", "&=", "|=", "^="),
     separator: _ => choice(";", ","),
     assignment: $ => choice(
@@ -149,20 +146,18 @@ module.exports = grammar({
       seq("PROVIDE", '(', $.NAME, '=', $.mustbe_exp, ')'),
       seq("PROVIDE_HIDDEN", '(', $.NAME, '=', $.mustbe_exp, ')'),
     ),
-    opt_comma: _ => optional(","),
-    memory: $ => seq("MEMORY", "{", $.memory_spec_list_opt, "}"),
-    memory_spec_list_opt: $ => optional($.memory_spec_list),
+    memory: $ => seq("MEMORY", "{", optional($.memory_spec_list), "}"),
     memory_spec_list: $ => choice(
-      seq($.memory_spec_list, $.opt_comma, $.memory_spec),
+      seq($.memory_spec_list, optional(","), $.memory_spec),
       $.memory_spec
     ),
     memory_spec: $ => choice(
-      seq($.NAME, $.attributes_opt, ":", $.origin_spec, $.opt_comma, $.length_spec),
-      seq("INCLUDE", $.filename, $.memory_spec_list_opt),
+      seq($.NAME, optional($.attributes), ":", $.origin_spec, optional(","), $.length_spec),
+      seq("INCLUDE", $.filename, optional($.memory_spec_list)),
     ),
     origin_spec: $ => seq("ORIGIN", "=", $.mustbe_exp),
     length_spec: $ => seq(choice("LENGTH", "l", "len"), "=", $.mustbe_exp),
-    attributes_opt: $ => optional(seq("(", $.attributes_list, ")")),
+    attributes: $ => seq("(", $.attributes_list, ")"),
     attributes_list: $ => choice($.attributes_string, seq($.attributes_list, $.attributes_string)),
     attributes_string: $ => choice($.NAME, seq("!", $.NAME)),
     startup: $ => seq("STARTUP", "(", $.filename, ")"),
@@ -171,18 +166,13 @@ module.exports = grammar({
       seq("HLL", "(", ")"),
     ),
     high_level_library_NAME_list: $ => choice(
-      seq($.high_level_library_NAME_list, $.opt_comma, $.filename),
+      seq($.high_level_library_NAME_list, optional(","), $.filename),
       $.filename,
     ),
     low_level_library: $ => seq("SYSLIB", '(', $.low_level_library_NAME_list, ')'),
-    low_level_library_NAME_list: $ => seq($.low_level_library_NAME_list, $.opt_comma, $.filename),
+    low_level_library_NAME_list: $ => seq($.low_level_library_NAME_list, optional(","), $.filename),
     floating_point_support: _ => choice("FLOAT", "NOFLOAT"),
-    nocrossref_list: $ => optional(
-      choice(
-        seq($.NAME, $.nocrossref_list),
-        seq($.NAME, ",", $.nocrossref_list),
-      ),
-    ),
+    nocrossref_list: $ => seq(sep1($.NAME, optional(",")), optional(",")),
     paren_script_name: $ => seq("(", $.NAME, ")"),
     mustbe_exp: $ => $.exp,
     exp: $ => choice(
@@ -235,15 +225,14 @@ module.exports = grammar({
       seq("LENGTH", $.paren_script_name),
       seq("LOG2CEIL", '(', $.exp, ')'),
     ),
-    memspec_at_opt: $ => optional(seq("AT", ">", $.NAME)),
-    opt_at: $ => optional(seq("AT", '(', $.exp, ')')),
-    opt_align: $ => optional(seq("ALIGN", '(', $.exp, ')')),
-    opt_align_with_input: _ => optional("ALIGN_WITH_INPUT"),
-    opt_subalign: $ => optional(seq("SUBALIGN", '(', $.exp, ')')),
-    sect_constraint: _ => optional(choice("ONLY_IF_RO", "ONLY_IF_RW", "SPECIAL")),
+    memspec_at: $ => seq("AT", ">", $.NAME),
+    at: $ => seq("AT", '(', $.exp, ')'),
+    align: $ => seq("ALIGN", '(', $.exp, ')'),
+    subalign: $ => seq("SUBALIGN", '(', $.exp, ')'),
+    sect_constraint: _ => choice("ONLY_IF_RO", "ONLY_IF_RW", "SPECIAL"),
     section: $ => choice(
-      seq($.NAME, $.opt_exp_with_type, $.opt_at, $.opt_align, $.opt_align_with_input, $.opt_subalign, $.sect_constraint, "{", $.statement_list_opt, "}", $.memspec_opt, $.memspec_at_opt, $.phdr_opt, $.fill_opt, $.opt_comma),
-      seq("OVERLAY", $.opt_exp_without_type, $.opt_nocrossrefs, $.opt_at, $.opt_subalign, "{", $.overlay_section, "}", $.memspec_opt, $.memspec_at_opt, $.phdr_opt, $.fill_opt, $.opt_comma),
+      seq($.NAME, $.opt_exp_with_type, optional($.at), optional($.align), optional("ALIGN_WITH_INPUT"), optional($.subalign), optional($.sect_constraint), "{", optional($.statement_list), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
+      seq("OVERLAY", $.opt_exp_without_type, optional("NOCROSSREFS"), optional($.at), optional($.subalign), "{", optional($.overlay_section), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
       seq("GROUP", $.opt_exp_with_type, '{', $.sec_or_group_p1, '}'),
       seq("INCLUDE", $.filename, $.sec_or_group_p1),
     ),
@@ -257,48 +246,55 @@ module.exports = grammar({
       "READONLY",
       seq("TYPE", '=', $.exp),
     ),
-    atype: $ => optional(choice(seq("(", $.type, ")"), seq("(", ")"))),
+    atype: $ => choice(seq("(", $.type, ")"), seq("(", ")")),
     opt_exp_with_type: $ => choice(
-      seq($.exp, $.atype, ':'),
-      seq($.atype, ':'),
-      seq("BIND", '(', $.exp, ')', $.atype, ':'),
-      seq("BIND", '(', $.exp, ')', "BLOCK", '(', $.exp, ')', $.atype, ':'),
+      seq($.exp, optional($.atype), ':'),
+      seq(optional($.atype), ':'),
+      seq("BIND", '(', $.exp, ')', optional($.atype), ':'),
+      seq("BIND", '(', $.exp, ')', "BLOCK", '(', $.exp, ')', optional($.atype), ':'),
     ),
     opt_exp_without_type: $ => choice(seq($.exp, ":"), ":"),
-    opt_nocrossrefs: _ => optional("NOCROSSREFS"),
-    memspec_opt: $ => optional(seq(">", $.NAME)),
-    phdr_opt: $ => optional(seq($.phdr_opt, ':', $.NAME)),
-    phdrs: $ => seq("PHDRS", "{", $.phdr_list, "}"),
-    phdr_list: $ => optional(seq($.phdr_list, $.phdr)),
-    phdr: $ => seq($.NAME, $.phdr_type, $.phdr_qualifiers, ';'),
+    memspec: $ => seq(">", $.NAME),
+    phdr_opt: $ => seq(optional($.phdr_opt), ':', $.NAME),
+    phdrs: $ => seq("PHDRS", "{", optional($.phdr_list), "}"),
+    phdr_list: $ => repeat1($.phdr),
+    phdr: $ => seq($.NAME, $.phdr_type, optional($.phdr_qualifiers), ';'),
     phdr_type: $ => $.exp,
-    phdr_qualifiers: $ => optional(choice(
-      seq($.NAME, $.phdr_val, $.phdr_qualifiers),
+    phdr_qualifiers: $ => choice(
+      seq($.NAME, optional($.phdr_val), $.phdr_qualifiers),
       seq("AT", '(', $.exp, ')', $.phdr_qualifiers),
+    ),
+    phdr_val: $ => seq('(', $.exp, ')'),
+    overlay_section: $ => repeat1(seq(
+      $.NAME,
+      '{',
+      optional($.statement_list),
+      '}',
+      optional($.phdr_opt),
+      optional(seq("=", $.fill_exp)),
+      optional(",")
     )),
-    phdr_val: $ => optional(seq('(', $.exp, ')')),
-    overlay_section: $ => optional(seq($.overlay_section, $.NAME, '{', $.statement_list_opt, '}', $.phdr_opt, $.fill_opt, $.opt_comma)),
     version: $ => seq("VERSION", '{', $.vers_nodes, '}'),
     vers_nodes: $ => choice($.vers_node, seq($.vers_nodes, $.vers_node)),
     vers_node: $ => choice(
-      seq('{', $.vers_tag, '}', ';'),
-      seq($.VERS_TAG, '{', $.vers_tag, '}', ';'),
-      seq($.VERS_TAG, '{', $.vers_tag, '}', $.verdep, ';'),
+      seq('{', optional($.vers_tag), '}', ';'),
+      seq($.VERS_TAG, '{', optional($.vers_tag), '}', ';'),
+      seq($.VERS_TAG, '{', optional($.vers_tag), '}', $.verdep, ';'),
     ),
     verdep: $ => choice($.VERS_TAG, seq($.verdep, $.VERS_TAG)),
-    vers_tag: $ => optional(choice(
+    vers_tag: $ => choice(
       seq($.vers_defns, ';'),
       seq("global", ':', $.vers_defns, ';'),
       seq("local", ':', $.vers_defns, ';'),
       seq("global", ':', $.vers_defns, ';', "local", ':', $.vers_defns, ';'),
-    )),
+    ),
     vers_defns: $ => choice(
       $.VERS_IDENTIFIER,
       $.NAME,
       seq($.vers_defns, ';', $.VERS_IDENTIFIER),
       seq($.vers_defns, ';', $.NAME),
-      seq($.vers_defns, ';', "extern", $.NAME, '{', $.vers_defns, $.opt_semicolon, '}'),
-      seq("extern", $.NAME, '{', $.vers_defns, $.opt_semicolon, '}'),
+      seq($.vers_defns, ';', "extern", $.NAME, '{', $.vers_defns, optional(";"), '}'),
+      seq("extern", $.NAME, '{', $.vers_defns, optional(";"), '}'),
       "global",
       seq($.vers_defns, ';', "global"),
       "local",
@@ -306,21 +302,33 @@ module.exports = grammar({
       "extern",
       seq($.vers_defns, ';', "extern"),
     ),
-    opt_semicolon: _ => optional(";"),
 
     NAME: _ => choice(
-      /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:[\],=]*/,
+      /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*/,
       /[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*/,
       "/DISCARD/",
       /"[^"]*"/
     ),
-    LNAME: _ => /-l[_a-zA-Z0-9/.\\$~\-+:[\],=]+/,
+    LNAME: _ => /-l[_a-zA-Z0-9/.\\$~\-+:\[\],=]+/,
     INT: _ => choice(
       /\$[0-9A-Fa-f]+/,
       /[0-9A-Fa-f]+[HhXxBbOoDd]/,
       /((\$|0[xX])[0-9A-Fa-f]+|[0-9]+)[MKmk]?/,
     ),
     VERS_TAG: _ => /[.$_a-zA-Z][._a-zA-Z0-9]*/,
-    VERS_IDENTIFIER: _ => /[*?.$_a-zA-Z[\]\-!^\\]([*?.$_a-zA-Z0-9[\]\-!^\\]|::)*/,
+    VERS_IDENTIFIER: _ => /[*?.$_a-zA-Z\[\]\-!^\\]([*?.$_a-zA-Z0-9\[\]\-!^\\]|::)*/,
   }
 })
+
+/**
+ * Creates a rule to match one or more of the rules separated by a comma
+ *
+ * @param {Rule} rule
+ * @param {Rule} sep
+ *
+ * @return {SeqRule}
+ *
+ */
+function sep1(rule, sep) {
+  return seq(rule, repeat(seq(sep, rule)));
+}
