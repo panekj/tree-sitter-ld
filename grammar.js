@@ -3,6 +3,7 @@
 
 module.exports = grammar({
   name: 'ld',
+  // TODO: Add comments.
   rules: {
     script_file: $ => repeat($.ifile_p1),
 
