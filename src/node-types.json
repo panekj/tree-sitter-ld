@@ -91,10 +91,6 @@
       "required": true,
       "types": [
         {
-          "type": "attributes_list",
-          "named": true
-        },
-        {
           "type": "attributes_string",
           "named": true
         }
@@ -140,10 +136,6 @@
       "required": true,
       "types": [
         {
-          "type": "exclude_name_list",
-          "named": true
-        },
-        {
           "type": "wildcard_name",
           "named": true
         }
@@ -187,10 +179,6 @@
       "types": [
         {
           "type": "NAME",
-          "named": true
-        },
-        {
-          "type": "extern_name_list",
           "named": true
         }
       ]
@@ -276,10 +264,6 @@
         {
           "type": "filename",
           "named": true
-        },
-        {
-          "type": "high_level_library_NAME_list",
-          "named": true
         }
       ]
     }
@@ -356,21 +340,6 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "input_list1",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "input_list1",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": true,
       "types": [
@@ -383,7 +352,7 @@
           "named": true
         },
         {
-          "type": "input_list1",
+          "type": "input_list",
           "named": true
         }
       ]
@@ -457,7 +426,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "low_level_library_NAME_list",
@@ -476,10 +445,6 @@
       "types": [
         {
           "type": "filename",
-          "named": true
-        },
-        {
-          "type": "low_level_library_NAME_list",
           "named": true
         }
       ]
@@ -541,10 +506,6 @@
       "types": [
         {
           "type": "memory_spec",
-          "named": true
-        },
-        {
-          "type": "memory_spec_list",
           "named": true
         }
       ]
@@ -880,10 +841,6 @@
         {
           "type": "NAME",
           "named": true
-        },
-        {
-          "type": "sect_flag_list",
-          "named": true
         }
       ]
     }
@@ -982,10 +939,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "section_name_list",
-          "named": true
-        },
         {
           "type": "section_name_spec",
           "named": true
@@ -1132,10 +1085,6 @@
         {
           "type": "statement",
           "named": true
-        },
-        {
-          "type": "statement_list",
-          "named": true
         }
       ]
     }
@@ -1180,10 +1129,6 @@
       "types": [
         {
           "type": "VERS_TAG",
-          "named": true
-        },
-        {
-          "type": "verdep",
           "named": true
         }
       ]
@@ -1245,10 +1190,6 @@
       "types": [
         {
           "type": "vers_node",
-          "named": true
-        },
-        {
-          "type": "vers_nodes",
           "named": true
         }
       ]
