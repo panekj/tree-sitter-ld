@@ -854,10 +854,6 @@
       "required": true,
       "types": [
         {
-          "type": "sec_or_group_p1",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         },
@@ -1022,7 +1018,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "sec_or_group_p1",

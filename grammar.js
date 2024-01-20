@@ -58,11 +58,8 @@ module.exports = grammar({
       seq($.input_list1, ",", "AS_NEEDED", "(", $.input_list1, ")"),
       seq($.input_list1, "AS_NEEDED", "(", $.input_list1, ")"),
     ),
-    sections: $ => seq("SECTIONS", "{", $.sec_or_group_p1, "}"),
-    sec_or_group_p1: $ => choice(
-      seq($.sec_or_group_p1, $.section),
-      seq($.sec_or_group_p1, $.statement_anywhere),
-    ),
+    sections: $ => seq("SECTIONS", "{", optional($.sec_or_group_p1), "}"),
+    sec_or_group_p1: $ => repeat1(choice($.section, $.statement_anywhere)),
     statement_anywhere: $ => choice(
       seq("ENTRY", "(", $.NAME, ")"),
       seq($.assignment, $.separator),
@@ -234,7 +231,7 @@ module.exports = grammar({
     section: $ => choice(
       seq($.NAME, $.opt_exp_with_type, optional($.at), optional($.align), optional("ALIGN_WITH_INPUT"), optional($.subalign), optional($.sect_constraint), "{", optional($.statement_list), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
       seq("OVERLAY", $.opt_exp_without_type, optional("NOCROSSREFS"), optional($.at), optional($.subalign), "{", optional($.overlay_section), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
-      seq("GROUP", $.opt_exp_with_type, '{', $.sec_or_group_p1, '}'),
+      seq("GROUP", $.opt_exp_with_type, '{', optional($.sec_or_group_p1), '}'),
       seq("INCLUDE", $.filename),
     ),
     type: $ => choice(
