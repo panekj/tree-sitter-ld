@@ -321,13 +321,6 @@
             {
               "type": "SYMBOL",
               "name": "filename"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SYMBOL",
-                "name": "ifile_p1"
-              }
             }
           ]
         },
@@ -1686,18 +1679,6 @@
             {
               "type": "SYMBOL",
               "name": "filename"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "statement_list"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             }
           ]
         }
@@ -2055,18 +2036,6 @@
             {
               "type": "SYMBOL",
               "name": "filename"
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "memory_spec_list"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
             }
           ]
         }
@@ -3709,10 +3678,6 @@
             {
               "type": "SYMBOL",
               "name": "filename"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "sec_or_group_p1"
             }
           ]
         }

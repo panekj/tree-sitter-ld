@@ -37,7 +37,7 @@ module.exports = grammar({
       seq("INPUT", '(', $.input_list, ')'),
       seq("GROUP", '(', $.input_list, ')'),
       seq("MAP", '(', $.filename, ')'),
-      seq("INCLUDE", $.filename, repeat($.ifile_p1)),
+      seq("INCLUDE", $.filename),
       seq("NOCROSSREFS", '(', optional($.nocrossref_list), ')'),
       seq("NOCROSSREFS_TO", '(', optional($.nocrossref_list), ')'),
       seq("EXTERN", '(', $.extern_name_list, ')'),
@@ -130,7 +130,7 @@ module.exports = grammar({
       seq("FILL", '(', $.fill_exp, ')'),
       "LINKER_VERSION",
       seq("ASSERT", '(', $.exp, ',', $.NAME, ')', $.separator),
-      seq("INCLUDE", $.filename, optional($.statement_list)),
+      seq("INCLUDE", $.filename),
     ),
     statement_list: $ => choice(
       seq($.statement_list, $.statement),
@@ -154,7 +154,7 @@ module.exports = grammar({
     ),
     memory_spec: $ => choice(
       seq($.NAME, optional($.attributes), ":", $.origin_spec, optional(","), $.length_spec),
-      seq("INCLUDE", $.filename, optional($.memory_spec_list)),
+      seq("INCLUDE", $.filename),
     ),
     origin_spec: $ => seq("ORIGIN", "=", $.mustbe_exp),
     length_spec: $ => seq(choice("LENGTH", "l", "len"), "=", $.mustbe_exp),
@@ -235,7 +235,7 @@ module.exports = grammar({
       seq($.NAME, $.opt_exp_with_type, optional($.at), optional($.align), optional("ALIGN_WITH_INPUT"), optional($.subalign), optional($.sect_constraint), "{", optional($.statement_list), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
       seq("OVERLAY", $.opt_exp_without_type, optional("NOCROSSREFS"), optional($.at), optional($.subalign), "{", optional($.overlay_section), "}", optional($.memspec), optional($.memspec_at), optional($.phdr_opt), optional(seq("=", $.fill_exp)), optional(",")),
       seq("GROUP", $.opt_exp_with_type, '{', $.sec_or_group_p1, '}'),
-      seq("INCLUDE", $.filename, $.sec_or_group_p1),
+      seq("INCLUDE", $.filename),
     ),
     type: $ => choice(
       "NOLOAD",
