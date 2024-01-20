@@ -4723,12 +4723,20 @@
     "VERS_IDENTIFIER": {
       "type": "PATTERN",
       "value": "[*?.$_a-zA-Z\\[\\]\\-!^\\\\]([*?.$_a-zA-Z0-9\\[\\]\\-!^\\\\]|::)*"
+    },
+    "comment": {
+      "type": "PATTERN",
+      "value": "\\/\\*([^*]|\\*[^/])*\\*\\/"
     }
   },
   "extras": [
     {
       "type": "PATTERN",
       "value": "\\s"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "conflicts": [],

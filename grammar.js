@@ -3,7 +3,7 @@
 
 module.exports = grammar({
   name: 'ld',
-  // TODO: Add comments.
+  extras: $ => [/\s/, $.comment],
   rules: {
     script_file: $ => repeat($.ifile_p1),
 
@@ -318,6 +318,8 @@ module.exports = grammar({
     ),
     VERS_TAG: _ => /[.$_a-zA-Z][._a-zA-Z0-9]*/,
     VERS_IDENTIFIER: _ => /[*?.$_a-zA-Z\[\]\-!^\\]([*?.$_a-zA-Z0-9\[\]\-!^\\]|::)*/,
+
+    comment: _ => /\/\*([^*]|\*[^/])*\*\//,
   }
 })
 
