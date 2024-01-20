@@ -4,6 +4,7 @@
 module.exports = grammar({
   name: 'ld',
   extras: $ => [/\s/, $.comment],
+  word: $ => $.NAME,
   rules: {
     script_file: $ => repeat($.ifile_p1),
 
@@ -291,12 +292,7 @@ module.exports = grammar({
       ),
       ","
     ),
-    NAME: _ => choice(
-      /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*/,
-      /[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*/,
-      "/DISCARD/",
-      /"[^"]*"/
-    ),
+    NAME: _ => /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*|[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*|\/DISCARD\/|"[^"]*"/,
     LNAME: _ => /-l[_a-zA-Z0-9/.\\$~\-+:\[\],=]+/,
     INT: _ => choice(
       /\$[0-9A-Fa-f]+/,

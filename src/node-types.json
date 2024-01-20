@@ -5,11 +5,6 @@
     "fields": {}
   },
   {
-    "type": "NAME",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "align",
     "named": true,
     "fields": {},
@@ -1328,10 +1323,6 @@
     "named": false
   },
   {
-    "type": "/DISCARD/",
-    "named": false
-  },
-  {
     "type": ":",
     "named": false
   },
@@ -1586,6 +1577,10 @@
   {
     "type": "MIN",
     "named": false
+  },
+  {
+    "type": "NAME",
+    "named": true
   },
   {
     "type": "NEXT",

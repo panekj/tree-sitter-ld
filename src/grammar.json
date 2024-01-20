@@ -1,5 +1,6 @@
 {
   "name": "ld",
+  "word": "NAME",
   "rules": {
     "script_file": {
       "type": "REPEAT",
@@ -3769,25 +3770,8 @@
       ]
     },
     "NAME": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "=?[_a-zA-Z/.\\\\$~][_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=]*"
-        },
-        {
-          "type": "PATTERN",
-          "value": "[_a-zA-Z.\\\\$][_a-zA-Z0-9/.\\\\$~]*"
-        },
-        {
-          "type": "STRING",
-          "value": "/DISCARD/"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\"[^\"]*\""
-        }
-      ]
+      "type": "PATTERN",
+      "value": "=?[_a-zA-Z/.\\\\$~][_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=]*|[_a-zA-Z.\\\\$][_a-zA-Z0-9/.\\\\$~]*|\\/DISCARD\\/|\"[^\"]*\""
     },
     "LNAME": {
       "type": "PATTERN",
