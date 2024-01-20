@@ -86,7 +86,7 @@ module.exports = grammar({
       $.wildcard_name,
       seq("EXCLUDE_FILE", '(', $.exclude_name_list, ')', $.wildcard_name),
     ),
-    wildcard_maybe_reverse: $ => choice($.wildcard_maybe_reverse, seq("REVERSE", '(', $.wildcard_maybe_exclude, ')')),
+    wildcard_maybe_reverse: $ => choice($.wildcard_maybe_exclude, seq("REVERSE", '(', $.wildcard_maybe_exclude, ')')),
     filename_spec: $ => choice(
       $.wildcard_maybe_reverse,
       seq(choice("SORT_BY_NAME", "SORT"), '(', $.wildcard_maybe_reverse, ')'),
@@ -176,7 +176,7 @@ module.exports = grammar({
     nocrossref_list: $ => seq(sep1($.NAME, optional(",")), optional(",")),
     paren_script_name: $ => seq("(", $.NAME, ")"),
     mustbe_exp: $ => $.exp,
-    exp: $ => choice(
+    exp: $ => prec.left(choice(
       seq("-", $.exp),
       seq("(", $.exp, ")"),
       seq("NEXT", "(", $.exp, ")"),
@@ -225,7 +225,7 @@ module.exports = grammar({
       seq("ORIGIN", $.paren_script_name),
       seq("LENGTH", $.paren_script_name),
       seq("LOG2CEIL", '(', $.exp, ')'),
-    ),
+    )),
     memspec_at: $ => seq("AT", ">", $.NAME),
     at: $ => seq("AT", '(', $.exp, ')'),
     align: $ => seq("ALIGN", '(', $.exp, ')'),
