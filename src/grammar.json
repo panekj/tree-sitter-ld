@@ -690,10 +690,6 @@
         }
       ]
     },
-    "wildcard_name": {
-      "type": "PATTERN",
-      "value": "[_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=?*^!]+"
-    },
     "section_name_spec": {
       "type": "CHOICE",
       "members": [
@@ -3776,6 +3772,10 @@
     "LNAME": {
       "type": "PATTERN",
       "value": "-l[_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=]+"
+    },
+    "wildcard_name": {
+      "type": "PATTERN",
+      "value": "[_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=?*^!]+"
     },
     "INT": {
       "type": "CHOICE",

@@ -57,7 +57,6 @@ module.exports = grammar({
         seq($.assignment, $.separator),
         seq("ASSERT", "(", $.exp, ",", $.NAME, ")"),
       ),
-    wildcard_name: (_) => /[_a-zA-Z0-9/.\\$~\-+:\[\],=?*^!]+/,
     section_name_spec: ($) =>
       choice(
         $.wildcard_maybe_reverse,
@@ -420,6 +419,7 @@ module.exports = grammar({
     NAME: (_) =>
       /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*|[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*|\/DISCARD\/|"[^"]*"/,
     LNAME: (_) => /-l[_a-zA-Z0-9/.\\$~\-+:\[\],=]+/,
+    wildcard_name: (_) => /[_a-zA-Z0-9/.\\$~\-+:\[\],=?*^!]+/,
     INT: (_) =>
       choice(
         /\$[0-9A-Fa-f]+/,
