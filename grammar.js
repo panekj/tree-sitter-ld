@@ -402,10 +402,10 @@ module.exports = grammar({
         seq("global", ":", $.vers_defns, ";", "local", ":", $.vers_defns, ";"),
       ),
     vers_defns: ($) =>
-      sep1(
+      seq(
+        optional(seq($.vers_defns, ";")),
         choice(
           $.VERS_IDENTIFIER,
-          $.NAME,
           seq(
             "extern",
             optional(seq($.NAME, "{", $.vers_defns, optional(";"), "}")),
@@ -413,7 +413,6 @@ module.exports = grammar({
           "global",
           "local",
         ),
-        ",",
       ),
     NAME: (_) =>
       /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*|[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*|\/DISCARD\/|"[^"]*"/,

@@ -3620,12 +3620,29 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "VERS_IDENTIFIER"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "vers_defns"
+                },
+                {
+                  "type": "STRING",
+                  "value": ";"
+                }
+              ]
             },
             {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SYMBOL",
-              "name": "NAME"
+              "name": "VERS_IDENTIFIER"
             },
             {
               "type": "SEQ",
@@ -3686,89 +3703,6 @@
               "value": "local"
             }
           ]
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "VERS_IDENTIFIER"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "NAME"
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "extern"
-                      },
-                      {
-                        "type": "CHOICE",
-                        "members": [
-                          {
-                            "type": "SEQ",
-                            "members": [
-                              {
-                                "type": "SYMBOL",
-                                "name": "NAME"
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "{"
-                              },
-                              {
-                                "type": "SYMBOL",
-                                "name": "vers_defns"
-                              },
-                              {
-                                "type": "CHOICE",
-                                "members": [
-                                  {
-                                    "type": "STRING",
-                                    "value": ";"
-                                  },
-                                  {
-                                    "type": "BLANK"
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "STRING",
-                                "value": "}"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "BLANK"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "global"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "local"
-                  }
-                ]
-              }
-            ]
-          }
         }
       ]
     },
