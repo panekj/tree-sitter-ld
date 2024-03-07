@@ -129,7 +129,7 @@ module.exports = grammar({
           ")",
         ),
       ),
-    sect_flag_list: ($) => sep1($.NAME, "&"),
+    sect_flag_list: ($) => sep1($.wildcard_name, "&"),
     sect_flags: ($) => seq("INPUT_SECTION_FLAGS", "(", $.sect_flag_list, ")"),
     exclude_name_list: ($) => repeat1($.wildcard_name),
     section_name_list: ($) => sep1($.section_name_spec, optional(",")),

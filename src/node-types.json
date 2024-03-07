@@ -830,7 +830,7 @@
       "required": true,
       "types": [
         {
-          "type": "NAME",
+          "type": "wildcard_name",
           "named": true
         }
       ]

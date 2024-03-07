@@ -1046,7 +1046,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "NAME"
+          "name": "wildcard_name"
         },
         {
           "type": "REPEAT",
@@ -1059,7 +1059,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "NAME"
+                "name": "wildcard_name"
               }
             ]
           }
