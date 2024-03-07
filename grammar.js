@@ -363,9 +363,8 @@ module.exports = grammar({
     phdr: ($) => seq($.NAME, $.phdr_type, optional($.phdr_qualifiers), ";"),
     phdr_type: ($) => $.exp,
     phdr_qualifiers: ($) =>
-      seq(
+      repeat1(
         choice(seq($.NAME, optional($.phdr_val)), seq("AT", "(", $.exp, ")")),
-        $.phdr_qualifiers,
       ),
     phdr_val: ($) => seq("(", $.exp, ")"),
     overlay_section: ($) =>

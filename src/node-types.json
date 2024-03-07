@@ -731,10 +731,6 @@
           "named": true
         },
         {
-          "type": "phdr_qualifiers",
-          "named": true
-        },
-        {
           "type": "phdr_val",
           "named": true
         }
