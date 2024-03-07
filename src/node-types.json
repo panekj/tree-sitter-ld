@@ -1779,6 +1779,14 @@
     "named": false
   },
   {
+    "type": "o",
+    "named": false
+  },
+  {
+    "type": "org",
+    "named": false
+  },
+  {
     "type": "wildcard_name",
     "named": true
   },

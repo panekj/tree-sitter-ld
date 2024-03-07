@@ -199,7 +199,7 @@ module.exports = grammar({
         ),
         seq("INCLUDE", $.filename),
       ),
-    origin_spec: ($) => seq("ORIGIN", "=", $.mustbe_exp),
+    origin_spec: ($) => seq(choice("ORIGIN", "o", "org"), "=", $.mustbe_exp),
     length_spec: ($) => seq(choice("LENGTH", "l", "len"), "=", $.mustbe_exp),
     attributes: ($) => seq("(", $.attributes_list, ")"),
     attributes_list: ($) => repeat1($.attributes_string),

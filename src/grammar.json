@@ -1710,8 +1710,21 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "ORIGIN"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "ORIGIN"
+            },
+            {
+              "type": "STRING",
+              "value": "o"
+            },
+            {
+              "type": "STRING",
+              "value": "org"
+            }
+          ]
         },
         {
           "type": "STRING",
