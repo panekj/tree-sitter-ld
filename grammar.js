@@ -252,7 +252,7 @@ module.exports = grammar({
             $.exp,
           ),
           seq($.exp, "?", $.exp, ":", $.exp),
-          seq(choice("DEFINED", "CONSTANT"), "(", $.NAME, ")"),
+          seq(choice("DEFINED", "CONSTANT"), "(", $.SYMBOLNAME, ")"),
           $.INT,
           "SIZEOF_HEADERS",
           seq(
@@ -273,9 +273,9 @@ module.exports = grammar({
             $.exp,
             ")",
           ),
-          seq("SEGMENT_START", "(", $.NAME, ",", $.exp, ")"),
-          $.NAME,
-          seq("ASSERT", "(", $.exp, ",", $.NAME, ")"),
+          seq("SEGMENT_START", "(", $.SYMBOLNAME, ",", $.exp, ")"),
+          $.SYMBOLNAME,
+          seq("ASSERT", "(", $.exp, ",", $.SYMBOLNAME, ")"),
         ),
       ),
     memspec_at: ($) => seq("AT", ">", $.NAME),
@@ -416,6 +416,7 @@ module.exports = grammar({
       ),
     NAME: (_) =>
       /=?[_a-zA-Z/.\\$~][_a-zA-Z0-9/.\\$~\-+:\[\],=]*|[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*|\/DISCARD\/|"[^"]*"/,
+    SYMBOLNAME: (_) => /[_a-zA-Z.\\$][_a-zA-Z0-9/.\\$~]*|\/DISCARD\/|"[^"]*"/,
     LNAME: (_) => /-l[_a-zA-Z0-9/.\\$~\-+:\[\],=]+/,
     wildcard_name: (_) => /[_a-zA-Z0-9/.\\$~\-+:\[\],=?*^!]+/,
     INT: (_) =>

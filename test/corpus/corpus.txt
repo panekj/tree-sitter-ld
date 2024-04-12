@@ -89,7 +89,7 @@ SECTIONS
                 (NAME)
                 (mustbe_exp
                   (exp
-                    (NAME))))
+                    (SYMBOLNAME))))
               (separator))
             (statement
               (input_section_spec

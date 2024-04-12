@@ -2287,7 +2287,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "NAME"
+                "name": "SYMBOLNAME"
               },
               {
                 "type": "STRING",
@@ -2442,7 +2442,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "NAME"
+                "name": "SYMBOLNAME"
               },
               {
                 "type": "STRING",
@@ -2460,7 +2460,7 @@
           },
           {
             "type": "SYMBOL",
-            "name": "NAME"
+            "name": "SYMBOLNAME"
           },
           {
             "type": "SEQ",
@@ -2483,7 +2483,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "NAME"
+                "name": "SYMBOLNAME"
               },
               {
                 "type": "STRING",
@@ -3709,6 +3709,10 @@
     "NAME": {
       "type": "PATTERN",
       "value": "=?[_a-zA-Z/.\\\\$~][_a-zA-Z0-9/.\\\\$~\\-+:\\[\\],=]*|[_a-zA-Z.\\\\$][_a-zA-Z0-9/.\\\\$~]*|\\/DISCARD\\/|\"[^\"]*\""
+    },
+    "SYMBOLNAME": {
+      "type": "PATTERN",
+      "value": "[_a-zA-Z.\\\\$][_a-zA-Z0-9/.\\\\$~]*|\\/DISCARD\\/|\"[^\"]*\""
     },
     "LNAME": {
       "type": "PATTERN",

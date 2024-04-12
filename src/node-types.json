@@ -150,7 +150,7 @@
           "named": true
         },
         {
-          "type": "NAME",
+          "type": "SYMBOLNAME",
           "named": true
         },
         {
@@ -1713,6 +1713,10 @@
   {
     "type": "SUBALIGN",
     "named": false
+  },
+  {
+    "type": "SYMBOLNAME",
+    "named": true
   },
   {
     "type": "SYSLIB",
